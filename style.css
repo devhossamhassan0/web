@@ -1,0 +1,16 @@
+/* 
+Theme Name: Ebda3Design
+Theme URI: https://ebda3design.com
+Description: Theme for Ebda3Design
+Version: 1.0
+Author: HossaM HassaN
+Author URI: https://ebda3design.com
+License: GNU General Public License v2 or later
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: ebda3design
+*/
+
+
+.row{
+    display: flex;
+}
