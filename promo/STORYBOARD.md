@@ -18,7 +18,7 @@
 | 7 Stats | 12.0–14.0 | وفّر وقتك ومجهودك | push cuts · 12.0 stat 1 · 13.0 stat 2 (real numbers only) | `push` 12.0 / 13.0 |
 | 8 Ticker | 14.0–16.0 | أسهل وأسرع | 14.0 «اختار» · 14.5 «حدّد» · 15.0 «حوّل» in orange | `word_swish` 14.0 / 14.5 / 15.0 |
 | 9 Logo | 16.0–18.0 | ResizePhoto — حوّل صورك بسهولة | 16.0 ResizePhoto · 16.5 «حوّل صورك بسهولة» · 17.0 «وركّز في شغلك أكتر» | `logo` 16.0 |
-| 10 CTA | 18.0–20.0 | اكتبلي في الكومنتات | 18.0 «أكتر صيغة بتستخدمها إيه؟ 👇» · 18.5–20.0 fade to black | `outro` 18.5 |
+| 10 CTA | 18.0–20.0 | اكتبلي في الكومنتات | 18.0 «أكتر صيغة» · 18.5 «بتستخدمها إيه؟» + «اكتبلي في الكومنتات 👇» · 19.0–20.0 fade to black | `outro` 19.0 |
 
 ## Motion sounds
 
@@ -26,6 +26,15 @@ All effects are synthesized by `promo/tools/make_sfx.py` (no third-party samples
 `promo/sfx/sfx.json` stores each file's measured peak; the mix places a sound at `cue − peak` so the peak lands on the cue.
 `promo/sfx/cue_preview.m4a` is the 20 s cue track over a quiet metronome (accented on each downbeat).
 In the final mix the effects sit well under the music and the whole is loudness-normalized to −14 LUFS.
+
+## Build status
+
+`promo/index.html` is the composition; `window.seek(t)` sets every style from `t` alone.
+`node promo/tools/probe.cjs <out_dir> <t> ...` renders single frames for review.
+
+- Done: bars 1, 4, 8, 9, 10 (type only)
+- Waiting on assets: bar 2 (UI), bars 3, 5, 6 (clips), bar 7 (real numbers)
+- Fonts: IBM Plex Sans Arabic and Inter, both under the SIL Open Font License
 
 ## Waiting on
 

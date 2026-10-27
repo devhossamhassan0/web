@@ -138,7 +138,7 @@ CUES = [
     (12.0, "push", 0), (13.0, "push", 0),
     (14.0, "word_swish", -4), (14.5, "word_swish", -4), (15.0, "word_swish", -2),
     (16.0, "logo", 0),
-    (18.5, "outro", 0),
+    (19.0, "outro", 0),
 ]
 LENGTH = 20.0
 

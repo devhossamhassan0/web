@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>ResizePhoto Promo</title>
+<style>
+  @font-face { font-family: Plex; src: url(fonts/plex-arabic-500.woff2) format("woff2"); font-weight: 500; }
+  @font-face { font-family: Plex; src: url(fonts/plex-arabic-700.woff2) format("woff2"); font-weight: 700; }
+  @font-face { font-family: InterV; src: url(fonts/Inter-SemiBold.otf); font-weight: 600; }
+  @font-face { font-family: InterV; src: url(fonts/Inter-Bold.otf); font-weight: 700; }
+  @font-face { font-family: InterV; src: url(fonts/Inter-ExtraBold.otf); font-weight: 800; }
+
+  :root {
+    --ink: #0B0B0C;
+    --paper: #F5F4F1;
+    --orange: #FF5B14;
+    --muted-dark: rgba(245, 244, 241, 0.5);
+    --muted-light: rgba(11, 11, 12, 0.45);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 1080px; height: 1920px; overflow: hidden; background: var(--ink); }
+  body { font-family: Plex, InterV, "Noto Color Emoji", sans-serif; -webkit-font-smoothing: antialiased; }
+
+  #stage { position: absolute; inset: 0; overflow: hidden; }
+  .scene { position: absolute; inset: 0; display: none; }
+  .scene.light { background: var(--paper); color: var(--ink); }
+  .scene.dark { background: var(--ink); color: var(--paper); }
+  .cam { position: absolute; inset: 0; transform-origin: 50% 50%; }
+  .center { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+
+  /* Masked reveal: the inner line rides up out of a clipped box. Arabic needs room for its tall marks. */
+  .mask { display: block; overflow: hidden; padding: 0.12em 0.08em; }
+  .mask > span { display: inline-block; will-change: transform; }
+
+  .ar { font-family: Plex, "Noto Color Emoji"; letter-spacing: 0; }
+  .lat { font-family: InterV; direction: ltr; }
+
+  /* Bar 1 */
+  #hook { gap: 0; }
+  #hook .line { font-weight: 700; font-size: 168px; line-height: 1.12; text-align: center; }
+  #hook .word { display: inline-block; }
+
+  /* Bar 4 */
+  #formats-label { position: absolute; top: 470px; left: 0; right: 0; text-align: center; font-weight: 500; font-size: 50px; color: var(--muted-dark); }
+  #formats .fmt { font-weight: 800; font-size: 250px; line-height: 0.92; letter-spacing: -0.055em; }
+
+  /* Bar 8 */
+  #ticker-track { position: absolute; top: 50%; left: 0; display: flex; gap: 120px; transform-origin: 0 0; white-space: nowrap; }
+  #ticker-track .tw { font-weight: 700; font-size: 210px; line-height: 1.2; }
+
+  /* Bar 9 */
+  #wordmark { font-weight: 700; font-size: 150px; letter-spacing: -0.05em; line-height: 1; }
+  #wordmark .accent { color: var(--orange); }
+  #promise { margin-top: 70px; text-align: center; }
+  #promise .p1 { font-weight: 700; font-size: 70px; line-height: 1.3; }
+  #promise .p2 { font-weight: 500; font-size: 70px; line-height: 1.3; color: var(--muted-dark); }
+
+  /* Bar 10 */
+  #cta .q { font-weight: 700; font-size: 128px; line-height: 1.18; text-align: center; }
+  #cta .q .accent { color: var(--orange); }
+  #cta .hint { margin-top: 64px; font-weight: 500; font-size: 52px; color: var(--muted-dark); }
+
+  #black { position: absolute; inset: 0; background: #000; opacity: 0; pointer-events: none; }
+</style>
+</head>
+<body>
+<div id="stage">
+
+  <!-- Bar 1: hook, one word per beat -->
+  <section class="scene light" id="s-hook" data-start="0" data-end="2">
+    <div class="cam">
+      <div class="center" id="hook">
+        <div class="line ar"><span class="mask"><span class="w" data-at="0">صور كتير</span></span></div>
+        <div class="line ar"><span class="mask"><span class="w" data-at="0.5">من صيغة</span></span></div>
+        <div class="line ar"><span class="mask"><span class="w" data-at="1">لصيغة</span></span></div>
+        <div class="line ar"><span class="mask"><span class="w" data-at="1.5">تانية؟</span></span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Bar 4: the formats -->
+  <section class="scene dark" id="s-formats" data-start="6" data-end="8">
+    <div class="cam">
+      <div id="formats-label" class="ar"><span class="mask"><span class="w" data-at="6">اختار الصيغة المناسبة لشغلك</span></span></div>
+      <div class="center" id="formats">
+        <span class="mask lat"><span class="fmt w" data-at="6">JPG</span></span>
+        <span class="mask lat"><span class="fmt w" data-at="6.5">PNG</span></span>
+        <span class="mask lat"><span class="fmt w" data-at="7" id="fmt-webp">WEBP</span></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Bar 8: three-word ticker -->
+  <section class="scene dark" id="s-ticker" data-start="14" data-end="16">
+    <div class="cam">
+      <div id="ticker-track" class="ar">
+        <span class="tw" data-at="14">اختار</span>
+        <span class="tw" data-at="14.5">حدّد</span>
+        <span class="tw" data-at="15">حوّل</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Bar 9: logo and promise -->
+  <section class="scene dark" id="s-logo" data-start="16" data-end="18">
+    <div class="cam">
+      <div class="center">
+        <span class="mask lat"><span class="w" data-at="16" id="wordmark">Resize<span class="accent">Photo</span></span></span>
+        <div id="promise" class="ar">
+          <span class="mask"><span class="w p1" data-at="16.5">حوّل صورك بسهولة</span></span>
+          <span class="mask"><span class="w p2" data-at="17">وركّز في شغلك أكتر</span></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Bar 10: call to comment, then black -->
+  <section class="scene dark" id="s-cta" data-start="18" data-end="20">
+    <div class="cam">
+      <div class="center" id="cta">
+        <div class="q ar"><span class="mask"><span class="w" data-at="18">أكتر <span class="accent">صيغة</span></span></span></div>
+        <div class="q ar"><span class="mask"><span class="w" data-at="18.5">بتستخدمها إيه؟</span></span></div>
+        <div class="hint ar"><span class="mask"><span class="w" data-at="18.5">اكتبلي في الكومنتات 👇</span></span></div>
+      </div>
+    </div>
+  </section>
+
+  <div id="black"></div>
+</div>
+
+<script>
+// Every style below is a pure function of t. seek(t) can be called in any order.
+const DURATION = 20;
+const BEAT = 0.5;
+
+const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+const lerp = (a, b, k) => a + (b - a) * k;
+const prog = (t, at, dur) => clamp((t - at) / dur);
+const easeOut = (x) => 1 - Math.pow(1 - x, 4);
+const easeInOut = (x) => (x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
+
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const scenes = $$(".scene").map((el) => ({ el, start: +el.dataset.start, end: +el.dataset.end, cam: $(".cam", el) }));
+
+// One camera language for the whole film: a slow, constant push-in within each shot.
+function camera(scene, t) {
+  const k = clamp((t - scene.start) / (scene.end - scene.start));
+  scene.cam.style.transform = `scale(${lerp(1, 1.035, k)})`;
+}
+
+// Masked reveal: lands on its beat, 0.55 s quart-out, no overshoot.
+function reveal(el, t, at, dur = 0.55) {
+  const k = easeOut(prog(t, at, dur));
+  el.style.transform = `translateY(${lerp(112, 0, k)}%)`;
+}
+function revealAll(root, t) {
+  for (const w of $$(".w", root)) reveal(w, t, +w.dataset.at);
+}
+
+const render = {
+  "s-hook"(s, t) {
+    revealAll(s.el, t);
+  },
+  "s-formats"(s, t) {
+    revealAll(s.el, t);
+    // Once WEBP lands, the other two step back so the shot holds one idea.
+    const k = easeOut(prog(t, 7, 0.4));
+    const webp = $("#fmt-webp");
+    for (const f of $$(".fmt", s.el)) f.style.opacity = f === webp ? 1 : lerp(1, 0.22, k);
+    webp.style.color = k > 0 ? `color-mix(in srgb, var(--orange) ${k * 100}%, var(--paper))` : "";
+  },
+  "s-ticker"(s, t) {
+    const track = $("#ticker-track");
+    const words = $$(".tw", track);
+    // Measured at runtime so any word width centres exactly.
+    const centers = words.map((w) => w.offsetLeft + w.offsetWidth / 2);
+    let x = centers[0];
+    words.forEach((w, i) => {
+      if (i === 0) return;
+      x = lerp(x, centers[i], easeInOut(prog(t, +w.dataset.at - 0.18, 0.36)));
+    });
+    const enter = easeOut(prog(t, 14, 0.55));
+    track.style.transform = `translate(${540 - x}px, calc(-50% + ${lerp(180, 0, enter)}px))`;
+    words.forEach((w, i) => {
+      const on = easeInOut(prog(t, +w.dataset.at - 0.18, 0.36));
+      const off = i < words.length - 1 ? easeInOut(prog(t, +words[i + 1].dataset.at - 0.18, 0.36)) : 0;
+      w.style.opacity = ((i === 0 ? 1 : on) * (1 - off)) * enter;
+      w.style.color = i === words.length - 1 && on > 0 ? `color-mix(in srgb, var(--orange) ${on * 100}%, var(--paper))` : "";
+    });
+  },
+  "s-logo"(s, t) {
+    revealAll(s.el, t);
+  },
+  "s-cta"(s, t) {
+    revealAll(s.el, t);
+    $("#black").style.opacity = easeInOut(prog(t, 19, 1));
+  },
+};
+
+async function seek(t) {
+  await document.fonts.ready;
+  $("#black").style.opacity = 0;
+  for (const s of scenes) {
+    const on = t >= s.start && t < s.end;
+    s.el.style.display = on ? "block" : "none";
+    if (!on) continue;
+    camera(s, t);
+    render[s.el.id]?.(s, t);
+  }
+  const imgs = $$("img").filter((i) => i.offsetParent !== null);
+  await Promise.all(imgs.map((i) => i.decode().catch(() => {})));
+}
+
+window.DURATION = DURATION;
+window.seek = seek;
+</script>
+</body>
+</html>
