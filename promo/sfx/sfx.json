@@ -1,0 +1,72 @@
+{
+  "word_swish": {
+    "file": "word_swish.wav",
+    "duration": 0.32,
+    "peak": 0.1794
+  },
+  "morph": {
+    "file": "morph.wav",
+    "duration": 0.7,
+    "peak": 0.402
+  },
+  "ui_click": {
+    "file": "ui_click.wav",
+    "duration": 0.07,
+    "peak": 0.005
+  },
+  "riser": {
+    "file": "riser.wav",
+    "duration": 0.55,
+    "peak": 0.5261
+  },
+  "drop_sub": {
+    "file": "drop_sub.wav",
+    "duration": 1.1,
+    "peak": 0.0116
+  },
+  "scan": {
+    "file": "scan.wav",
+    "duration": 1.0,
+    "peak": 0.5236
+  },
+  "lock": {
+    "file": "lock.wav",
+    "duration": 0.09,
+    "peak": 0.005
+  },
+  "match": {
+    "file": "match.wav",
+    "duration": 0.5,
+    "peak": 0.3008
+  },
+  "carousel": {
+    "file": "carousel.wav",
+    "duration": 1.5,
+    "peak": 1.0203
+  },
+  "whip": {
+    "file": "whip.wav",
+    "duration": 0.36,
+    "peak": 0.2034
+  },
+  "flip": {
+    "file": "flip.wav",
+    "duration": 0.1,
+    "peak": 0.005
+  },
+  "push": {
+    "file": "push.wav",
+    "duration": 0.35,
+    "peak": 0.0605
+  },
+  "logo": {
+    "file": "logo.wav",
+    "duration": 1.6,
+    "peak": 0.4581
+  },
+  "outro": {
+    "file": "outro.wav",
+    "duration": 1.4,
+    "peak": 0.1293
+  }
+}
