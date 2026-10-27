@@ -40,6 +40,33 @@
   #hook .line { font-weight: 700; font-size: 168px; line-height: 1.12; text-align: center; }
   #hook .word { display: inline-block; }
 
+  .mask.inl { display: inline-block; }
+
+  /* Bar 2 */
+  #app { position: absolute; left: 100px; right: 100px; top: 430px; padding: 56px 56px 60px; background: #fff; border-radius: 44px;
+         border: 1px solid rgba(11, 11, 12, 0.06); box-shadow: 0 40px 90px rgba(11, 11, 12, 0.08); }
+  .app-head { display: flex; justify-content: flex-end; margin-bottom: 44px; }
+  .app-name { font-weight: 700; font-size: 44px; letter-spacing: -0.04em; }
+  .app-name .accent { color: var(--orange); }
+  .app-label { font-weight: 700; font-size: 46px; line-height: 1.12; margin-bottom: 22px; }
+  #fmt-label { display: inline-block; visibility: hidden; }
+  #drop { position: relative; height: 372px; border: 2px dashed rgba(11, 11, 12, 0.14); border-radius: 30px; padding: 22px 26px; margin-bottom: 48px; }
+  #drop-empty { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-weight: 500; font-size: 40px; color: var(--muted-light); }
+  .row { display: flex; align-items: center; gap: 26px; height: 108px; }
+  .row + .row { border-top: 1px solid rgba(11, 11, 12, 0.07); }
+  .thumb { width: 96px; height: 60px; border-radius: 14px; background: #EFEDE8; flex: none; display: flex; align-items: center; justify-content: center;
+           font-weight: 700; font-size: 24px; letter-spacing: -0.02em; color: var(--muted-light); }
+  .fname { flex: 1; text-align: right; font-weight: 600; font-size: 38px; letter-spacing: -0.02em; }
+  .tick { width: 22px; height: 22px; border-radius: 50%; background: var(--orange); flex: none; }
+  #seg { position: relative; display: flex; background: #EFEDE8; border-radius: 26px; padding: 8px; margin-bottom: 52px; direction: ltr; }
+  #seg .opt { position: relative; flex: 1; text-align: center; font-weight: 700; font-size: 42px; letter-spacing: -0.03em; line-height: 104px; }
+  #seg-ind { position: absolute; top: 8px; bottom: 8px; border-radius: 20px; background: var(--orange); }
+  #convert { height: 148px; border-radius: 34px; background: var(--orange); color: #fff; font-weight: 700; font-size: 56px;
+             display: flex; align-items: center; justify-content: center; }
+  #morph-word { position: absolute; left: 0; top: 0; font-weight: 700; font-size: 168px; line-height: 1.12; transform-origin: 0 0; white-space: nowrap; display: none; }
+  #iris { position: absolute; left: 0; top: 0; width: 100px; height: 100px; margin: -50px 0 0 -50px; border-radius: 50%; background: var(--ink); transform: scale(0); }
+  #cursor { position: absolute; left: 0; top: 0; transform-origin: 6px 4px; }
+
   /* Bar 4 */
   #formats-label { position: absolute; top: 470px; left: 0; right: 0; text-align: center; font-weight: 500; font-size: 50px; color: var(--muted-dark); }
   #formats .fmt { font-weight: 800; font-size: 250px; line-height: 0.92; letter-spacing: -0.055em; }
@@ -67,15 +94,37 @@
 <div id="stage">
 
   <!-- Bar 1: hook, one word per beat -->
-  <section class="scene light" id="s-hook" data-start="0" data-end="2">
+  <!-- Bar 2: «صيغة» becomes the app's format label; the cursor picks files, WEBP, then convert -->
+  <section class="scene light" id="s-hook" data-start="0" data-end="4">
     <div class="cam">
       <div class="center" id="hook">
         <div class="line ar"><span class="mask"><span class="w" data-at="0">صور كتير</span></span></div>
-        <div class="line ar"><span class="mask"><span class="w" data-at="0.5">من صيغة</span></span></div>
+        <div class="line ar"><span class="mask inl"><span class="w" data-at="0.5">من</span></span> <span class="mask inl"><span class="w" data-at="0.5" id="hook-key">صيغة</span></span></div>
         <div class="line ar"><span class="mask"><span class="w" data-at="1">لصيغة</span></span></div>
         <div class="line ar"><span class="mask"><span class="w" data-at="1.5">تانية؟</span></span></div>
       </div>
+
+      <div id="app" class="ar">
+        <div class="app-head"><span class="lat app-name">Resize<span class="accent">Photo</span></span></div>
+        <div class="app-label">الصور</div>
+        <div id="drop">
+          <div class="row"><span class="thumb lat">JPG</span><span class="lat fname">product-01.jpg</span><span class="tick"></span></div>
+          <div class="row"><span class="thumb lat">PNG</span><span class="lat fname">product-02.png</span><span class="tick"></span></div>
+          <div class="row"><span class="thumb lat">JPG</span><span class="lat fname">product-03.jpg</span><span class="tick"></span></div>
+          <div id="drop-empty">اختار الصور اللي عايز تحوّلها</div>
+        </div>
+        <div class="app-label"><span id="fmt-label">صيغة</span></div>
+        <div id="seg" class="lat">
+          <div id="seg-ind"></div>
+          <span class="opt">JPG</span><span class="opt">PNG</span><span class="opt" id="opt-webp">WEBP</span>
+        </div>
+        <div id="convert">حوّل الصور</div>
+      </div>
+
+      <span id="morph-word" class="ar">صيغة</span>
     </div>
+    <div id="iris"></div>
+    <svg id="cursor" width="72" height="72" viewBox="0 0 24 24"><path d="M4 2.5 L4 19.5 L8.6 15.4 L11.6 22 L14.6 20.7 L11.7 14.2 L18 14.2 Z" fill="#0B0B0C" stroke="#fff" stroke-width="1.4" stroke-linejoin="round"/></svg>
   </section>
 
   <!-- Bar 4: the formats -->
@@ -143,6 +192,13 @@ const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 const scenes = $$(".scene").map((el) => ({ el, start: +el.dataset.start, end: +el.dataset.end, cam: $(".cam", el) }));
 
+// Layout position relative to `root`, ignoring transforms, for exact match cuts.
+function layoutRect(el, root) {
+  let x = 0, y = 0;
+  for (let e = el; e && e !== root; e = e.offsetParent) { x += e.offsetLeft; y += e.offsetTop; }
+  return { x, y, w: el.offsetWidth, h: el.offsetHeight };
+}
+
 // One camera language for the whole film: a slow, constant push-in within each shot.
 function camera(scene, t) {
   const k = clamp((t - scene.start) / (scene.end - scene.start));
@@ -161,6 +217,80 @@ function revealAll(root, t) {
 const render = {
   "s-hook"(s, t) {
     revealAll(s.el, t);
+    const cam = s.cam;
+    const key = $("#hook-key");
+    const morph = $("#morph-word");
+    const app = $("#app");
+
+    // 2.0: every hook word but «صيغة» leaves upward.
+    const leave = easeInOut(prog(t, 2, 0.28));
+    for (const w of $$("#hook .w", s.el)) if (w !== key && t >= 2) w.style.transform = `translateY(${lerp(0, -112, leave)}%)`;
+
+    // 2.0 to 2.5: «صيغة» glides into the app's format label (both measured from layout, so the match is exact).
+    const k = easeInOut(prog(t, 2, 0.5));
+    const from = layoutRect(key, cam);
+    const to = layoutRect($("#fmt-label"), cam);
+    const sc = lerp(1, to.h / from.h, k);
+    const right = lerp(from.x + from.w, to.x + to.w, k);
+    const top = lerp(from.y, to.y, k);
+    morph.style.display = t >= 2 ? "block" : "none";
+    key.style.visibility = t >= 2 ? "hidden" : "visible";
+    morph.style.transform = `translate(${right - from.w * sc}px, ${top}px) scale(${sc})`;
+
+    // The app card settles in around the word.
+    const a = easeOut(prog(t, 2.22, 0.5));
+    app.style.opacity = a;
+    app.style.transform = `translateY(${lerp(60, 0, a)}px) scale(${lerp(0.97, 1, a)})`;
+
+    // 2.5: files land in the drop zone.
+    const rows = $$(".row", app);
+    rows.forEach((r, i) => {
+      const f = easeOut(prog(t, 2.5 + i * 0.06, 0.4));
+      r.style.opacity = f;
+      r.style.transform = `translateY(${lerp(24, 0, f)}px)`;
+    });
+    $("#drop-empty").style.opacity = 1 - easeOut(prog(t, 2.5, 0.2));
+
+    // 3.0: the format selector slides from JPG to WEBP and turns orange.
+    const opts = $$("#seg .opt");
+    const sel = easeInOut(prog(t, 3, 0.3));
+    const ind = $("#seg-ind");
+    ind.style.left = `${lerp(opts[0].offsetLeft, opts[2].offsetLeft, sel)}px`;
+    ind.style.width = `${opts[0].offsetWidth}px`;
+    opts.forEach((o, i) => (o.style.color = i === 0 ? `color-mix(in srgb, var(--ink) ${sel * 100}%, #fff)` : i === 2 ? `color-mix(in srgb, #fff ${sel * 100}%, var(--ink))` : ""));
+
+    // 3.5: the button is pressed.
+    const press = clamp(1 - Math.abs(t - 3.56) / 0.08);
+    $("#convert").style.transform = `scale(${1 - 0.03 * press})`;
+
+    // Cursor: one eased path through each target, arriving just before its beat.
+    const camScale = parseFloat(cam.style.transform.slice(6)) || 1;
+    const toStage = (r, fx, fy) => ({ x: 540 + (r.x + r.w * fx - 540) * camScale, y: 960 + (r.y + r.h * fy - 960) * camScale });
+    const stops = [
+      [2.15, { x: 900, y: 2060 }],
+      [2.44, toStage(layoutRect($("#drop"), cam), 0.42, 0.55)],
+      [2.94, toStage(layoutRect(opts[2], cam), 0.55, 0.6)],
+      [3.44, toStage(layoutRect($("#convert"), cam), 0.38, 0.6)],
+    ];
+    let pos = stops[0][1];
+    for (let i = 1; i < stops.length; i++) {
+      const [t0] = stops[i - 1];
+      const [t1, p1] = stops[i];
+      const m = easeInOut(prog(t, t0 + 0.08, t1 - t0 - 0.08));
+      pos = { x: lerp(pos.x, p1.x, m), y: lerp(pos.y, p1.y, m) };
+    }
+    const click = Math.max(...[2.5, 3, 3.5].map((b) => clamp(1 - Math.abs(t - b - 0.03) / 0.07)));
+    const cursor = $("#cursor");
+    cursor.style.transform = `translate(${pos.x - 6}px, ${pos.y - 4}px) scale(${1 - 0.14 * click})`;
+    cursor.style.opacity = t < 3.62 ? 1 : 0;
+
+    // 3.5 to 4.0: a dark circle opens out of the button and becomes the next scene.
+    const btn = toStage(layoutRect($("#convert"), cam), 0.5, 0.5);
+    const iris = $("#iris");
+    const r = easeInOut(prog(t, 3.5, 0.5));
+    iris.style.left = `${btn.x}px`;
+    iris.style.top = `${btn.y}px`;
+    iris.style.transform = `scale(${r * 46})`;
   },
   "s-formats"(s, t) {
     revealAll(s.el, t);

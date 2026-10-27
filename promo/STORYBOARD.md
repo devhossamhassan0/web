@@ -33,12 +33,11 @@ All effects are synthesized by `promo/tools/make_sfx.py` (no third-party samples
 `promo/index.html` is the composition; `window.seek(t)` sets every style from `t` alone.
 `node promo/tools/probe.cjs <out_dir> <t> ...` renders single frames for review.
 
-- Done: bars 1, 4, 8, 9, 10 (type only)
-- Waiting on assets: bar 2 (UI), bars 3, 5, 6 (clips), bar 7 (real numbers)
+- Done: bars 1, 2 (designed app UI, no screenshot needed), 4, 8, 9, 10
+- Waiting on assets: bars 3, 5, 6 (clips), bar 7 (real numbers)
 - Fonts: IBM Plex Sans Arabic and Inter, both under the SIL Open Font License
 
 ## Waiting on
 
 - 10–20 vertical clips you own → `promo/clips/`
-- Screenshots or a screen recording of ResizePhoto → `promo/ui/`
 - Real numbers for bar 7, or 3 before/after images converted with the app
