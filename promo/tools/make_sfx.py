@@ -1,6 +1,9 @@
 """Synthesize the promo's motion sound effects from scratch (no third-party samples,
 so no licence questions), record each file's measured peak, and lay them on the
-beat grid as a preview cue track.
+beat grid. The film has no music: these effects are the whole soundtrack.
+
+Writes sfx/soundtrack.m4a (the final audio, loudness-normalized to -14 LUFS) and
+sfx/cue_preview.m4a (the same cues over a quiet metronome, for checking timing).
 
 Usage: python3 -I promo/tools/make_sfx.py
 """
@@ -130,17 +133,29 @@ SOUNDS = {
 CUES = [
     (0.0, "word_swish", -4), (0.5, "word_swish", -4), (1.0, "word_swish", -4), (1.5, "word_swish", -4),
     (2.0, "morph", -2), (2.5, "ui_click", -3), (3.0, "ui_click", -3), (3.5, "ui_click", 0),
-    (4.0, "riser", -3), (4.0, "drop_sub", -6), (4.5, "scan", 0),
+    (4.0, "riser", -2), (4.0, "drop_sub", -3), (4.5, "scan", 0),
     (4.5, "lock", -2), (5.0, "lock", -2), (5.5, "lock", -2),
     (6.0, "match", -2), (6.0, "word_swish", -5), (6.5, "word_swish", -5), (7.0, "word_swish", -3),
     (9.0, "carousel", 0), (9.5, "whip", 0),
     (10.0, "match", -3), (11.0, "flip", 0),
     (12.0, "push", 0), (13.0, "push", 0),
     (14.0, "word_swish", -4), (14.5, "word_swish", -4), (15.0, "word_swish", -2),
-    (16.0, "logo", 0),
+    (16.0, "logo", 0), (16.5, "word_swish", -6), (17.0, "word_swish", -8),
+    (18.0, "word_swish", -5), (18.5, "word_swish", -6),
     (19.0, "outro", 0),
 ]
 LENGTH = 20.0
+
+
+def loudnorm(src, dst, target=-14.0):
+    """Two-pass ffmpeg loudnorm to `target` LUFS with a -1 dBTP ceiling."""
+    spec = f"loudnorm=I={target}:TP=-1:LRA=11"
+    probe = subprocess.run(["ffmpeg", "-hide_banner", "-i", str(src), "-af", spec + ":print_format=json", "-f", "null", "-"],
+                           capture_output=True, text=True, check=True).stderr
+    m = json.loads(probe[probe.rindex("{"):probe.rindex("}") + 1])
+    second = (f"{spec}:measured_I={m['input_i']}:measured_TP={m['input_tp']}:measured_LRA={m['input_lra']}"
+              f":measured_thresh={m['input_thresh']}:offset={m['target_offset']}:linear=true")
+    subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", str(src), "-af", second, "-ar", str(SR), "-c:a", "aac", "-b:a", "192k", str(dst)], check=True)
 
 
 def main():
@@ -153,7 +168,7 @@ def main():
         wavfile.write(OUT / f"{name}.wav", SR, x)
     (OUT / "sfx.json").write_text(json.dumps(meta, indent=2) + "\n")
 
-    # Preview track: each sound placed so its measured peak, not its start, sits on the cue.
+    # Each sound is placed so its measured peak, not its start, sits on the cue.
     mix = np.zeros((int(LENGTH * SR) + SR, 2), np.float32)
     for at, name, gain in CUES:
         x = clips[name] * 10 ** (gain / 20)
@@ -161,17 +176,24 @@ def main():
         if start < 0:
             x, start = x[-start:], 0
         mix[start:start + len(x)] += x[: len(mix) - start]
-    # Beat-grid metronome, very quiet, so the cue preview can be judged against the grid.
+    mix = mix[: int(LENGTH * SR)]
+    mix *= 0.5 / np.max(np.abs(mix))
+
+    raw = OUT / "soundtrack_raw.wav"
+    wavfile.write(raw, SR, mix)
+    loudnorm(raw, OUT / "soundtrack.m4a")
+
+    # Timing check: the same cues over a quiet metronome, accented on each downbeat.
+    preview = mix.copy()
     for b in range(int(LENGTH * 2)):
         s = int(b * 0.5 * SR)
-        tick = click(1000 if b % 4 else 1600, 0.03)[:, None] * (0.08 if b % 4 else 0.14)
-        mix[s:s + len(tick)] += tick
-    mix = mix[: int(LENGTH * SR)]
-    mix *= 0.89 / np.max(np.abs(mix))
+        tick = click(1000 if b % 4 else 1600, 0.03)[:, None] * (0.05 if b % 4 else 0.09)
+        preview[s:s + len(tick)] += tick[: len(preview) - s]
     wav = OUT / "cue_preview.wav"
-    wavfile.write(wav, SR, mix)
+    wavfile.write(wav, SR, preview / np.max(np.abs(preview)) * 0.89)
     subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", str(wav), "-c:a", "aac", "-b:a", "192k", str(OUT / "cue_preview.m4a")], check=True)
     wav.unlink()
+    raw.unlink()
     print(json.dumps(meta, indent=2))
 
 
