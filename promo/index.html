@@ -25,67 +25,105 @@
   .scene { position: absolute; inset: 0; display: none; }
   .scene.light { background: var(--paper); color: var(--ink); }
   .scene.dark { background: var(--ink); color: var(--paper); }
-  .cam { position: absolute; inset: 0; transform-origin: 50% 50%; }
-  .center { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  .cam { position: absolute; inset: 0; transform-origin: 50% 45%; }
+  /* Content is centred in the area Reels/TikTok leave clear (top 220 px, bottom 400 px). */
+  .center { position: absolute; left: 0; right: 0; top: 220px; bottom: 400px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  .caption { position: absolute; top: 300px; left: 0; right: 0; text-align: center; font-weight: 500; font-size: 52px; color: var(--muted-dark); }
 
   /* Masked reveal: the inner line rides up out of a clipped box. Arabic needs room for its tall marks. */
   .mask { display: block; overflow: hidden; padding: 0.12em 0.08em; }
-  .mask > span { display: inline-block; will-change: transform; }
+  .mask.inl { display: inline-block; }
+  .mask > span { display: inline-block; }
 
   .ar { font-family: Plex, "Noto Color Emoji"; letter-spacing: 0; }
   .lat { font-family: InterV; direction: ltr; }
+  .accent { color: var(--orange); }
 
   /* Bar 1 */
-  #hook { gap: 0; }
   #hook .line { font-weight: 700; font-size: 168px; line-height: 1.12; text-align: center; }
-  #hook .word { display: inline-block; }
 
-  .mask.inl { display: inline-block; }
-
-  /* Bar 2 */
-  #app { position: absolute; left: 100px; right: 100px; top: 430px; padding: 56px 56px 60px; background: #fff; border-radius: 44px;
+  /* Bar 2: the app, rebuilt from the real Resizephoto window */
+  #app { position: absolute; left: 80px; right: 80px; top: 250px; padding: 50px 52px 54px; background: #fff; border-radius: 44px;
          border: 1px solid rgba(11, 11, 12, 0.06); box-shadow: 0 40px 90px rgba(11, 11, 12, 0.08); }
-  .app-head { display: flex; justify-content: flex-end; margin-bottom: 44px; }
-  .app-name { font-weight: 700; font-size: 44px; letter-spacing: -0.04em; }
-  .app-name .accent { color: var(--orange); }
-  .app-label { font-weight: 700; font-size: 46px; line-height: 1.12; margin-bottom: 22px; }
+  .app-name { font-weight: 700; font-size: 58px; letter-spacing: -0.045em; line-height: 1.1; }
+  .app-sub { font-weight: 500; font-size: 34px; color: var(--muted-light); margin: 8px 0 40px; }
+  .app-label { font-weight: 700; font-size: 44px; line-height: 1.12; margin-bottom: 18px; }
   #fmt-label { display: inline-block; visibility: hidden; }
-  #drop { position: relative; height: 372px; border: 2px dashed rgba(11, 11, 12, 0.14); border-radius: 30px; padding: 22px 26px; margin-bottom: 48px; }
-  #drop-empty { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-weight: 500; font-size: 40px; color: var(--muted-light); }
-  .row { display: flex; align-items: center; gap: 26px; height: 108px; }
+  #list { position: relative; height: 380px; border: 2px dashed rgba(11, 11, 12, 0.14); border-radius: 30px; padding: 12px 26px; margin-bottom: 40px; }
+  #list-empty { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-weight: 500; font-size: 40px; color: var(--muted-light); }
+  .row { display: flex; align-items: center; gap: 24px; height: 88px; }
   .row + .row { border-top: 1px solid rgba(11, 11, 12, 0.07); }
-  .thumb { width: 96px; height: 60px; border-radius: 14px; background: #EFEDE8; flex: none; display: flex; align-items: center; justify-content: center;
+  .badge { width: 92px; height: 54px; border-radius: 14px; background: #EFEDE8; flex: none; display: flex; align-items: center; justify-content: center;
            font-weight: 700; font-size: 24px; letter-spacing: -0.02em; color: var(--muted-light); }
   .fname { flex: 1; text-align: right; font-weight: 600; font-size: 38px; letter-spacing: -0.02em; }
-  .tick { width: 22px; height: 22px; border-radius: 50%; background: var(--orange); flex: none; }
-  #seg { position: relative; display: flex; background: #EFEDE8; border-radius: 26px; padding: 8px; margin-bottom: 52px; direction: ltr; }
-  #seg .opt { position: relative; flex: 1; text-align: center; font-weight: 700; font-size: 42px; letter-spacing: -0.03em; line-height: 104px; }
+  .tick { width: 20px; height: 20px; border-radius: 50%; background: var(--orange); flex: none; }
+  #seg { position: relative; display: flex; background: #EFEDE8; border-radius: 26px; padding: 8px; margin-bottom: 36px; direction: ltr; }
+  #seg .opt { position: relative; flex: 1; text-align: center; font-weight: 700; font-size: 40px; letter-spacing: -0.03em; line-height: 96px; }
   #seg-ind { position: absolute; top: 8px; bottom: 8px; border-radius: 20px; background: var(--orange); }
-  #convert { height: 148px; border-radius: 34px; background: var(--orange); color: #fff; font-weight: 700; font-size: 56px;
+  #quality { display: flex; align-items: center; gap: 28px; margin-bottom: 44px; }
+  #quality .q-label { font-weight: 700; font-size: 40px; }
+  #quality .q-track { flex: 1; height: 8px; border-radius: 4px; background: #EFEDE8; position: relative; direction: ltr; }
+  #quality .q-fill { position: absolute; left: 0; top: 0; bottom: 0; width: 92%; border-radius: 4px; background: var(--ink); }
+  #quality .q-knob { position: absolute; left: 92%; top: 50%; width: 34px; height: 34px; margin: -17px 0 0 -17px; border-radius: 50%; background: #fff; border: 3px solid var(--ink); }
+  #quality .q-val { font-weight: 700; font-size: 40px; }
+  #convert { height: 140px; border-radius: 34px; background: var(--orange); color: #fff; font-weight: 700; font-size: 54px;
              display: flex; align-items: center; justify-content: center; }
   #morph-word { position: absolute; left: 0; top: 0; font-weight: 700; font-size: 168px; line-height: 1.12; transform-origin: 0 0; white-space: nowrap; display: none; }
   #iris { position: absolute; left: 0; top: 0; width: 100px; height: 100px; margin: -50px 0 0 -50px; border-radius: 50%; background: var(--ink); transform: scale(0); }
   #cursor { position: absolute; left: 0; top: 0; transform-origin: 6px 4px; }
 
+  /* Bar 3: the real files turning into WEBP */
+  #files .frow { font-weight: 700; font-size: 104px; letter-spacing: -0.05em; line-height: 1.32; white-space: nowrap; }
+  .extmask { display: inline-block; position: relative; overflow: hidden; vertical-align: bottom; }
+  .ext { display: inline-block; }
+  .ext.new { position: absolute; left: 0; top: 0; color: var(--orange); }
+  #scan { position: absolute; left: 70px; right: 70px; height: 2px; background: rgba(245, 244, 241, 0.55); }
+  #scan::before { content: ""; position: absolute; left: 0; right: 0; bottom: 2px; height: 140px; background: linear-gradient(to top, rgba(245, 244, 241, 0.07), transparent); }
+
   /* Bar 4 */
-  #formats-label { position: absolute; top: 470px; left: 0; right: 0; text-align: center; font-weight: 500; font-size: 50px; color: var(--muted-dark); }
-  #formats .fmt { font-weight: 800; font-size: 250px; line-height: 0.92; letter-spacing: -0.055em; }
+  #formats .fmt { font-weight: 800; font-size: 230px; line-height: 0.9; letter-spacing: -0.055em; }
+
+  /* Bar 5: a 3D ring of uses, mirrored on the floor */
+  .ring-view { position: absolute; inset: 0; perspective: 1700px; perspective-origin: 50% 780px; }
+  .ring { position: absolute; left: 50%; top: 780px; transform-style: preserve-3d; }
+  .face { position: absolute; left: -380px; width: 760px; top: -90px; height: 180px; text-align: center; font-weight: 700; font-size: 104px; line-height: 180px;
+          backface-visibility: hidden; white-space: nowrap; }
+  #ring-refl { position: absolute; inset: 0; transform-origin: 50% 900px; transform: scaleY(-1); opacity: 0.2;
+               -webkit-mask-image: linear-gradient(to top, transparent 920px, #000 1000px, transparent 1180px); mask-image: linear-gradient(to top, transparent 920px, #000 1000px, transparent 1180px); }
+  #floor { position: absolute; left: 0; right: 0; top: 900px; height: 1px; background: linear-gradient(to right, transparent, rgba(245, 244, 241, 0.16), transparent); }
+
+  /* Bar 6: one file flipping into its result */
+  #card-wrap { position: absolute; left: 0; right: 0; top: 560px; height: 700px; perspective: 2400px; }
+  #card { position: absolute; left: 110px; right: 110px; top: 0; bottom: 0; transform-style: preserve-3d; }
+  .cface { position: absolute; inset: 0; border-radius: 48px; background: #161618; border: 1px solid rgba(245, 244, 241, 0.08); backface-visibility: hidden;
+           display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 26px; }
+  .cface.back { transform: rotateY(180deg); }
+  .cface .badge { background: rgba(245, 244, 241, 0.08); color: var(--muted-dark); width: 120px; height: 64px; font-size: 30px; }
+  .cface.back .badge { background: var(--orange); color: #fff; }
+  .cface .cname { font-weight: 700; font-size: 84px; letter-spacing: -0.045em; }
+  .cface.back .cname { font-size: 54px; letter-spacing: -0.035em; color: var(--muted-dark); }
+  .cface .cnote { font-weight: 500; font-size: 44px; color: var(--muted-dark); }
+  .cface .big { font-weight: 800; font-size: 190px; letter-spacing: -0.06em; line-height: 0.95; color: var(--orange); }
+
+  /* Bar 7 */
+  .stat { position: absolute; left: 0; right: 0; top: 220px; bottom: 400px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  .stat .num { font-weight: 800; font-size: 300px; letter-spacing: -0.065em; line-height: 0.95; }
+  .stat .num small { font-size: 120px; letter-spacing: -0.04em; margin-left: 18px; }
+  .stat .lbl { margin-top: 40px; font-weight: 500; font-size: 60px; color: var(--muted-dark); }
 
   /* Bar 8 */
-  #ticker-track { position: absolute; top: 50%; left: 0; display: flex; gap: 120px; transform-origin: 0 0; white-space: nowrap; }
-  #ticker-track .tw { font-weight: 700; font-size: 210px; line-height: 1.2; }
+  #ticker-track { position: absolute; top: 870px; left: 0; display: flex; gap: 140px; white-space: nowrap; }
+  #ticker-track .tw { font-weight: 700; font-size: 220px; line-height: 1.2; }
 
   /* Bar 9 */
   #wordmark { font-weight: 700; font-size: 150px; letter-spacing: -0.05em; line-height: 1; }
-  #wordmark .accent { color: var(--orange); }
   #promise { margin-top: 70px; text-align: center; }
-  #promise .p1 { font-weight: 700; font-size: 70px; line-height: 1.3; }
-  #promise .p2 { font-weight: 500; font-size: 70px; line-height: 1.3; color: var(--muted-dark); }
+  #promise .p1 { font-weight: 700; font-size: 72px; line-height: 1.3; }
+  #promise .p2 { font-weight: 500; font-size: 72px; line-height: 1.3; color: var(--muted-dark); }
 
   /* Bar 10 */
   #cta .q { font-weight: 700; font-size: 128px; line-height: 1.18; text-align: center; }
-  #cta .q .accent { color: var(--orange); }
-  #cta .hint { margin-top: 64px; font-weight: 500; font-size: 52px; color: var(--muted-dark); }
+  #cta .hint { margin-top: 64px; font-weight: 500; font-size: 54px; color: var(--muted-dark); }
 
   #black { position: absolute; inset: 0; background: #000; opacity: 0; pointer-events: none; }
 </style>
@@ -93,8 +131,7 @@
 <body>
 <div id="stage">
 
-  <!-- Bar 1: hook, one word per beat -->
-  <!-- Bar 2: «صيغة» becomes the app's format label; the cursor picks files, WEBP, then convert -->
+  <!-- Bars 1 and 2: the hook, then «صيغة» becomes the app's format label -->
   <section class="scene light" id="s-hook" data-start="0" data-end="4">
     <div class="cam">
       <div class="center" id="hook">
@@ -105,20 +142,23 @@
       </div>
 
       <div id="app" class="ar">
-        <div class="app-head"><span class="lat app-name">Resize<span class="accent">Photo</span></span></div>
-        <div class="app-label">الصور</div>
-        <div id="drop">
-          <div class="row"><span class="thumb lat">JPG</span><span class="lat fname">product-01.jpg</span><span class="tick"></span></div>
-          <div class="row"><span class="thumb lat">PNG</span><span class="lat fname">product-02.png</span><span class="tick"></span></div>
-          <div class="row"><span class="thumb lat">JPG</span><span class="lat fname">product-03.jpg</span><span class="tick"></span></div>
-          <div id="drop-empty">اختار الصور اللي عايز تحوّلها</div>
+        <div class="app-name lat" style="text-align:right">Resize<span class="accent">Photo</span></div>
+        <div class="app-sub">تحويل وضغط الصور على جهازك</div>
+        <div class="app-label">الصور المختارة</div>
+        <div id="list">
+          <div class="row"><span class="badge lat">PNG</span><span class="lat fname">bankette.png</span><span class="tick"></span></div>
+          <div class="row"><span class="badge lat">PNG</span><span class="lat fname">bed.png</span><span class="tick"></span></div>
+          <div class="row"><span class="badge lat">PNG</span><span class="lat fname">dresser.png</span><span class="tick"></span></div>
+          <div class="row"><span class="badge lat">PNG</span><span class="lat fname">wardrobe.png</span><span class="tick"></span></div>
+          <div id="list-empty">إضافة صور</div>
         </div>
-        <div class="app-label"><span id="fmt-label">صيغة</span></div>
+        <div class="app-label"><span id="fmt-label">صيغة</span> <span id="fmt-rest">الإخراج</span></div>
         <div id="seg" class="lat">
           <div id="seg-ind"></div>
-          <span class="opt">JPG</span><span class="opt">PNG</span><span class="opt" id="opt-webp">WEBP</span>
+          <span class="opt">JPG</span><span class="opt">PNG</span><span class="opt">WEBP</span><span class="opt">GIF</span>
         </div>
-        <div id="convert">حوّل الصور</div>
+        <div id="quality"><span class="q-label">الجودة</span><span class="q-track"><span class="q-fill"></span><span class="q-knob"></span></span><span class="q-val lat">92</span></div>
+        <div id="convert">حوّل واضغط</div>
       </div>
 
       <span id="morph-word" class="ar">صيغة</span>
@@ -127,25 +167,71 @@
     <svg id="cursor" width="72" height="72" viewBox="0 0 24 24"><path d="M4 2.5 L4 19.5 L8.6 15.4 L11.6 22 L14.6 20.7 L11.7 14.2 L18 14.2 Z" fill="#0B0B0C" stroke="#fff" stroke-width="1.4" stroke-linejoin="round"/></svg>
   </section>
 
-  <!-- Bar 4: the formats -->
+  <!-- Bar 3: the drop. Each real file turns into WEBP as the scan line passes it -->
+  <section class="scene dark" id="s-files" data-start="4" data-end="6">
+    <div class="cam">
+      <div class="caption ar"><span class="mask"><span class="w" data-at="4">كل صورك مرة واحدة</span></span></div>
+      <div class="center" id="files">
+        <div class="frow lat" data-at="4"><span>bankette</span><span class="extmask"><span class="ext old">.png</span><span class="ext new">.webp</span></span></div>
+        <div class="frow lat" data-at="4.5"><span>bed</span><span class="extmask"><span class="ext old">.png</span><span class="ext new">.webp</span></span></div>
+        <div class="frow lat" data-at="5"><span>dresser</span><span class="extmask"><span class="ext old">.png</span><span class="ext new">.webp</span></span></div>
+        <div class="frow lat" data-at="5.5"><span>wardrobe</span><span class="extmask"><span class="ext old">.png</span><span class="ext new">.webp</span></span></div>
+      </div>
+      <div id="scan"></div>
+    </div>
+  </section>
+
+  <!-- Bar 4: the four output formats -->
   <section class="scene dark" id="s-formats" data-start="6" data-end="8">
     <div class="cam">
-      <div id="formats-label" class="ar"><span class="mask"><span class="w" data-at="6">اختار الصيغة المناسبة لشغلك</span></span></div>
+      <div class="caption ar"><span class="mask"><span class="w" data-at="6">اختار الصيغة المناسبة لشغلك</span></span></div>
       <div class="center" id="formats">
         <span class="mask lat"><span class="fmt w" data-at="6">JPG</span></span>
         <span class="mask lat"><span class="fmt w" data-at="6.5">PNG</span></span>
         <span class="mask lat"><span class="fmt w" data-at="7" id="fmt-webp">WEBP</span></span>
+        <span class="mask lat"><span class="fmt w" data-at="7.5">GIF</span></span>
       </div>
     </div>
   </section>
 
-  <!-- Bar 8: three-word ticker -->
+  <!-- Bar 5: a ring of uses turns, then whips onto «صور منتجات» -->
+  <section class="scene dark" id="s-ring" data-start="8" data-end="10">
+    <div class="cam">
+      <div id="ring-refl"><div class="ring-view"><div class="ring" id="ring-b"></div></div></div>
+      <div id="floor"></div>
+      <div class="ring-view"><div class="ring" id="ring-a"></div></div>
+    </div>
+  </section>
+
+  <!-- Bar 6: one real file flips over into its real result -->
+  <section class="scene dark" id="s-card" data-start="10" data-end="12">
+    <div class="cam">
+      <div class="caption ar"><span class="mask"><span class="w" data-at="10">ضغط وتحويل في خطوة واحدة</span></span></div>
+      <div id="card-wrap">
+        <div id="card">
+          <div class="cface front"><span class="badge lat">PNG</span><span class="cname lat">bed.png</span><span class="cnote ar">الصورة الأصلية</span></div>
+          <div class="cface back"><span class="badge lat">WEBP</span><span class="big lat">−89.8%</span><span class="cname lat">bed_compressed.webp</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Bar 7: real numbers from the same run, on push cuts -->
+  <section class="scene dark" id="s-stats" data-start="12" data-end="14">
+    <div class="cam">
+      <div class="stat" id="stat-a"><div class="num lat">13.6<small>MB</small></div><div class="lbl ar">اتوفّروا من ٤ صور بس</div></div>
+      <div class="stat" id="stat-b"><div class="num lat accent">89.9%</div><div class="lbl ar">أقل في حجم الصورة</div></div>
+    </div>
+  </section>
+
+  <!-- Bar 8: four-step ticker -->
   <section class="scene dark" id="s-ticker" data-start="14" data-end="16">
     <div class="cam">
       <div id="ticker-track" class="ar">
         <span class="tw" data-at="14">اختار</span>
         <span class="tw" data-at="14.5">حدّد</span>
-        <span class="tw" data-at="15">حوّل</span>
+        <span class="tw" data-at="15">اضغط</span>
+        <span class="tw" data-at="15.5">حوّل</span>
       </div>
     </div>
   </section>
@@ -180,13 +266,13 @@
 <script>
 // Every style below is a pure function of t. seek(t) can be called in any order.
 const DURATION = 20;
-const BEAT = 0.5;
 
 const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
 const lerp = (a, b, k) => a + (b - a) * k;
 const prog = (t, at, dur) => clamp((t - at) / dur);
 const easeOut = (x) => 1 - Math.pow(1 - x, 4);
 const easeInOut = (x) => (x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
+const mix = (a, b, k) => (k <= 0 ? "" : `color-mix(in srgb, ${b} ${k * 100}%, ${a})`);
 
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
@@ -203,19 +289,33 @@ function layoutRect(el, root) {
 function camera(scene, t) {
   const k = clamp((t - scene.start) / (scene.end - scene.start));
   scene.cam.style.transform = `scale(${lerp(1, 1.035, k)})`;
+  return lerp(1, 1.035, k);
 }
 
 // Masked reveal: lands on its beat, 0.55 s quart-out, no overshoot.
 function reveal(el, t, at, dur = 0.55) {
-  const k = easeOut(prog(t, at, dur));
-  el.style.transform = `translateY(${lerp(112, 0, k)}%)`;
+  el.style.transform = `translateY(${lerp(112, 0, easeOut(prog(t, at, dur)))}%)`;
 }
 function revealAll(root, t) {
   for (const w of $$(".w", root)) reveal(w, t, +w.dataset.at);
 }
 
+// Bar 5 faces: the script's uses, twice round the ring.
+const USES = ["مواقع إلكترونية", "متاجر أونلاين", "صور منتجات", "مواقع إلكترونية", "متاجر أونلاين", "صور منتجات"];
+const HERO = 2;
+for (const id of ["ring-a", "ring-b"]) {
+  const ring = document.getElementById(id);
+  USES.forEach((u, i) => {
+    const f = document.createElement("div");
+    f.className = "face ar";
+    f.textContent = u;
+    f.dataset.i = i;
+    ring.appendChild(f);
+  });
+}
+
 const render = {
-  "s-hook"(s, t) {
+  "s-hook"(s, t, camScale) {
     revealAll(s.el, t);
     const cam = s.cam;
     const key = $("#hook-key");
@@ -232,52 +332,48 @@ const render = {
     const to = layoutRect($("#fmt-label"), cam);
     const sc = lerp(1, to.h / from.h, k);
     const right = lerp(from.x + from.w, to.x + to.w, k);
-    const top = lerp(from.y, to.y, k);
     morph.style.display = t >= 2 ? "block" : "none";
     key.style.visibility = t >= 2 ? "hidden" : "visible";
-    morph.style.transform = `translate(${right - from.w * sc}px, ${top}px) scale(${sc})`;
+    morph.style.transform = `translate(${right - from.w * sc}px, ${lerp(from.y, to.y, k)}px) scale(${sc})`;
 
-    // The app card settles in around the word.
+    // The app settles in around the word.
     const a = easeOut(prog(t, 2.22, 0.5));
     app.style.opacity = a;
     app.style.transform = `translateY(${lerp(60, 0, a)}px) scale(${lerp(0.97, 1, a)})`;
+    $("#fmt-rest").style.opacity = easeOut(prog(t, 2.4, 0.3));
 
-    // 2.5: files land in the drop zone.
-    const rows = $$(".row", app);
-    rows.forEach((r, i) => {
-      const f = easeOut(prog(t, 2.5 + i * 0.06, 0.4));
+    // 2.5: the files land in the list.
+    $$(".row", app).forEach((r, i) => {
+      const f = easeOut(prog(t, 2.5 + i * 0.05, 0.4));
       r.style.opacity = f;
       r.style.transform = `translateY(${lerp(24, 0, f)}px)`;
     });
-    $("#drop-empty").style.opacity = 1 - easeOut(prog(t, 2.5, 0.2));
+    $("#list-empty").style.opacity = 1 - easeOut(prog(t, 2.5, 0.2));
 
-    // 3.0: the format selector slides from JPG to WEBP and turns orange.
+    // 3.0: the format slides from JPG to WEBP.
     const opts = $$("#seg .opt");
     const sel = easeInOut(prog(t, 3, 0.3));
     const ind = $("#seg-ind");
     ind.style.left = `${lerp(opts[0].offsetLeft, opts[2].offsetLeft, sel)}px`;
     ind.style.width = `${opts[0].offsetWidth}px`;
-    opts.forEach((o, i) => (o.style.color = i === 0 ? `color-mix(in srgb, var(--ink) ${sel * 100}%, #fff)` : i === 2 ? `color-mix(in srgb, #fff ${sel * 100}%, var(--ink))` : ""));
+    opts[0].style.color = sel > 0 ? mix("#fff", "var(--ink)", sel) : "#fff";
+    opts[2].style.color = mix("var(--ink)", "#fff", sel);
 
     // 3.5: the button is pressed.
-    const press = clamp(1 - Math.abs(t - 3.56) / 0.08);
-    $("#convert").style.transform = `scale(${1 - 0.03 * press})`;
+    $("#convert").style.transform = `scale(${1 - 0.03 * clamp(1 - Math.abs(t - 3.56) / 0.08)})`;
 
     // Cursor: one eased path through each target, arriving just before its beat.
-    const camScale = parseFloat(cam.style.transform.slice(6)) || 1;
-    const toStage = (r, fx, fy) => ({ x: 540 + (r.x + r.w * fx - 540) * camScale, y: 960 + (r.y + r.h * fy - 960) * camScale });
+    const toStage = (r, fx, fy) => ({ x: 540 + (r.x + r.w * fx - 540) * camScale, y: 864 + (r.y + r.h * fy - 864) * camScale });
     const stops = [
       [2.15, { x: 900, y: 2060 }],
-      [2.44, toStage(layoutRect($("#drop"), cam), 0.42, 0.55)],
+      [2.44, toStage(layoutRect($("#list"), cam), 0.42, 0.55)],
       [2.94, toStage(layoutRect(opts[2], cam), 0.55, 0.6)],
       [3.44, toStage(layoutRect($("#convert"), cam), 0.38, 0.6)],
     ];
     let pos = stops[0][1];
     for (let i = 1; i < stops.length; i++) {
-      const [t0] = stops[i - 1];
-      const [t1, p1] = stops[i];
-      const m = easeInOut(prog(t, t0 + 0.08, t1 - t0 - 0.08));
-      pos = { x: lerp(pos.x, p1.x, m), y: lerp(pos.y, p1.y, m) };
+      const m = easeInOut(prog(t, stops[i - 1][0] + 0.08, stops[i][0] - stops[i - 1][0] - 0.08));
+      pos = { x: lerp(pos.x, stops[i][1].x, m), y: lerp(pos.y, stops[i][1].y, m) };
     }
     const click = Math.max(...[2.5, 3, 3.5].map((b) => clamp(1 - Math.abs(t - b - 0.03) / 0.07)));
     const cursor = $("#cursor");
@@ -287,41 +383,105 @@ const render = {
     // 3.5 to 4.0: a dark circle opens out of the button and becomes the next scene.
     const btn = toStage(layoutRect($("#convert"), cam), 0.5, 0.5);
     const iris = $("#iris");
-    const r = easeInOut(prog(t, 3.5, 0.5));
     iris.style.left = `${btn.x}px`;
     iris.style.top = `${btn.y}px`;
-    iris.style.transform = `scale(${r * 46})`;
+    iris.style.transform = `scale(${easeInOut(prog(t, 3.5, 0.5)) * 46})`;
   },
+
+  "s-files"(s, t) {
+    revealAll(s.el, t);
+    const rows = $$(".frow", s.el);
+    rows.forEach((r, i) => {
+      const enter = easeOut(prog(t, 4 + i * 0.04, 0.45));
+      r.style.opacity = enter;
+      r.style.transform = `translateY(${lerp(40, 0, enter)}px)`;
+      // On its beat the extension rolls from .png to .webp.
+      const at = +r.dataset.at + 0.02;
+      const k = easeInOut(prog(t, at, 0.32));
+      const old = $(".old", r), nu = $(".new", r), m = $(".extmask", r);
+      old.style.transform = `translateY(${-100 * k}%)`;
+      nu.style.transform = `translateY(${100 - 100 * k}%)`;
+      m.style.width = `${lerp(old.offsetWidth, nu.offsetWidth, k)}px`;
+    });
+    // The scan line crosses each row's centre exactly on that row's beat.
+    const cam = s.cam;
+    const ys = rows.map((r) => { const b = layoutRect(r, cam); return b.y + b.h / 2; });
+    const keys = [[3.8, ys[0] - 200], ...rows.map((r, i) => [+r.dataset.at, ys[i]]), [6.0, ys[3] + 260]];
+    let y = keys[0][1];
+    for (let i = 1; i < keys.length; i++) if (t >= keys[i - 1][0]) y = lerp(keys[i - 1][1], keys[i][1], prog(t, keys[i - 1][0], keys[i][0] - keys[i - 1][0]));
+    const scan = $("#scan");
+    scan.style.top = `${y}px`;
+    scan.style.opacity = 1 - easeOut(prog(t, 5.7, 0.3));
+  },
+
   "s-formats"(s, t) {
     revealAll(s.el, t);
-    // Once WEBP lands, the other two step back so the shot holds one idea.
-    const k = easeOut(prog(t, 7, 0.4));
-    const webp = $("#fmt-webp");
-    for (const f of $$(".fmt", s.el)) f.style.opacity = f === webp ? 1 : lerp(1, 0.22, k);
-    webp.style.color = k > 0 ? `color-mix(in srgb, var(--orange) ${k * 100}%, var(--paper))` : "";
+    $("#fmt-webp").style.color = mix("var(--paper)", "var(--orange)", easeOut(prog(t, 7, 0.4)));
   },
+
+  "s-ring"(s, t) {
+    // Slow turn for 1.4 s, then a whip that lands on «صور منتجات» on the 10.0 downbeat.
+    const end = HERO * 60 + 360;
+    const p = prog(t, 8, 2);
+    const f = p < 0.7 ? 0.15 * (p / 0.7) : 0.15 + 0.85 * (1 - Math.pow(1 - (p - 0.7) / 0.3, 3));
+    const angle = end * f;
+    const R = 760;
+    for (const id of ["ring-a", "ring-b"]) {
+      const ring = document.getElementById(id);
+      ring.style.transform = `translateZ(${-R}px) rotateY(${-angle}deg)`;
+      for (const face of ring.children) {
+        const i = +face.dataset.i;
+        const rel = ((i * 60 - angle) % 360 + 540) % 360 - 180;
+        const front = Math.max(0, Math.cos((rel * Math.PI) / 180));
+        face.style.transform = `rotateY(${i * 60}deg) translateZ(${R}px)`;
+        face.style.opacity = Math.pow(front, 8);
+        face.style.color = i === HERO ? mix("var(--paper)", "var(--orange)", easeOut(prog(t, 9.8, 0.2))) : "";
+      }
+    }
+  },
+
+  "s-card"(s, t) {
+    revealAll(s.el, t);
+    const wrap = $("#card-wrap");
+    const enter = easeOut(prog(t, 10, 0.55));
+    wrap.style.opacity = enter;
+    wrap.style.transform = `translateY(${lerp(120, 0, enter)}px)`;
+    $("#card").style.transform = `rotateY(${180 * easeInOut(prog(t, 11, 0.5))}deg)`;
+  },
+
+  "s-stats"(s, t) {
+    const push = (el, inAt, outAt) => {
+      const i = easeInOut(prog(t, inAt, 0.42));
+      const o = outAt ? easeInOut(prog(t, outAt, 0.42)) : 0;
+      el.style.transform = `translateY(${lerp(900, 0, i) - 900 * o}px)`;
+      el.style.opacity = i * (1 - o);
+    };
+    push($("#stat-a"), 12 - 0.02, 13 - 0.02);
+    push($("#stat-b"), 13 - 0.02, null);
+  },
+
   "s-ticker"(s, t) {
     const track = $("#ticker-track");
     const words = $$(".tw", track);
     // Measured at runtime so any word width centres exactly.
     const centers = words.map((w) => w.offsetLeft + w.offsetWidth / 2);
+    const step = (i) => easeInOut(prog(t, +words[i].dataset.at - 0.18, 0.36));
     let x = centers[0];
-    words.forEach((w, i) => {
-      if (i === 0) return;
-      x = lerp(x, centers[i], easeInOut(prog(t, +w.dataset.at - 0.18, 0.36)));
-    });
+    for (let i = 1; i < words.length; i++) x = lerp(x, centers[i], step(i));
     const enter = easeOut(prog(t, 14, 0.55));
-    track.style.transform = `translate(${540 - x}px, calc(-50% + ${lerp(180, 0, enter)}px))`;
+    track.style.transform = `translate(${540 - x}px, ${lerp(180, 0, enter)}px)`;
     words.forEach((w, i) => {
-      const on = easeInOut(prog(t, +w.dataset.at - 0.18, 0.36));
-      const off = i < words.length - 1 ? easeInOut(prog(t, +words[i + 1].dataset.at - 0.18, 0.36)) : 0;
-      w.style.opacity = ((i === 0 ? 1 : on) * (1 - off)) * enter;
-      w.style.color = i === words.length - 1 && on > 0 ? `color-mix(in srgb, var(--orange) ${on * 100}%, var(--paper))` : "";
+      const on = i === 0 ? 1 : step(i);
+      const off = i < words.length - 1 ? step(i + 1) : 0;
+      w.style.opacity = on * (1 - off) * enter;
+      w.style.color = i === words.length - 1 ? mix("var(--paper)", "var(--orange)", on) : "";
     });
   },
+
   "s-logo"(s, t) {
     revealAll(s.el, t);
   },
+
   "s-cta"(s, t) {
     revealAll(s.el, t);
     $("#black").style.opacity = easeInOut(prog(t, 19, 1));
@@ -335,8 +495,7 @@ async function seek(t) {
     const on = t >= s.start && t < s.end;
     s.el.style.display = on ? "block" : "none";
     if (!on) continue;
-    camera(s, t);
-    render[s.el.id]?.(s, t);
+    render[s.el.id](s, t, camera(s, t));
   }
   const imgs = $$("img").filter((i) => i.offsetParent !== null);
   await Promise.all(imgs.map((i) => i.decode().catch(() => {})));
